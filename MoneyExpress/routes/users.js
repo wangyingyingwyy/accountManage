@@ -8,7 +8,7 @@ con.connect();
 
 //用户注册
 router.post('/user/reg', function(req, res, next) {
-  var user_id = (new Date()).valueOf();
+  var user_id =Math.floor( Math.random() * 100+ 201)
   var user_name = req.body.username;
   var user_password = req.body.password;
   var user_phone = req.body.phone;
@@ -44,6 +44,38 @@ router.post('/user/login', function (req, res) {
       }
       else {
         res.send({ ok: true, msg: result[0] });
+      }
+    }
+  })
+})
+//获取用户信息
+router.post('/user/message', function (req, res) {
+  var userId=req.body.userId;
+  var userMessage={};
+  con.query("select count(*) as num from account_info where user_id=?", [userId], function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      if (result&&result.length === 0) {
+        userMessage.num=0;
+      }
+      else {
+        userMessage.num=result[0].num
+        // res.send({ ok: true, msg: result[0] });
+      }
+    }
+  })
+  con.query("select * from user_info where user_id=?", [userId], function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      if (result&&result.length === 0) {
+        res.send({ ok: false, msg: "查询失败" });
+      }
+      else {
+        var create_time=result[0].create_time;
+        userMessage.create_time=create_time;
+        res.send({ ok: true, msg: userMessage });
       }
     }
   })
