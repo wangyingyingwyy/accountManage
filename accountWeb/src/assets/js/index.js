@@ -21,11 +21,25 @@ const incomeList=[{type:1,icon:'礼金',path: 'income/1lijin.png'},
 {type:5,icon:'其他',path:'income/1qita.png'},
 ]
 
-function getBill(data){
-    
-}
+const URL='http:121313313//api/user/'
+//获取用户信息/api/user/message
+function getUserMsg(userId){
+    return new Promise ((resolve)=>{
+    axios.post(URL + '/message',
+      {
+        userId:userId
+      })
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+  }
 
 export {
     incomeList,
-    payList
+    payList,
+    getUserMsg
 }

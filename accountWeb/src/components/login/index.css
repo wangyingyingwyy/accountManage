@@ -1,0 +1,33 @@
+#login{
+    width:100%;
+    height:100vh;
+}
+#login .head{
+    height: 80px;
+    width: 100%;
+    background-color: #ffda44;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'YouYuan';
+    font-weight: bolder;
+  }
+#login .van-form{
+    margin: 10px auto 0;
+    width: 90%;
+}
+#login .van-field__label {
+    width:80px;
+}
+#login .van-button--info {
+    color:black;
+    font-size:16px;
+    background-color: #ffda44;
+    border: 1px solid #ffda44;
+}
+#login .zhu{
+    float: right;
+    margin-right: 25px;
+    font-size: 14px;
+    color: rgb(179, 179, 179);
+}

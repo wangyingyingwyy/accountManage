@@ -31,6 +31,7 @@
 
 <script>
 import {Popup,Icon,Dialog} from 'vant'
+import {getUserMsg} from '../../assets/js'
 import './index.css'
 export default {
     props:{
@@ -60,7 +61,9 @@ export default {
         }
     },
     created(){
-        // console.log(this.showSet)
+        getUserMsg(localStorage.getItem('userId')).then(res=>{
+            console.log(res)
+        })
     },
     methods:{
         close(){

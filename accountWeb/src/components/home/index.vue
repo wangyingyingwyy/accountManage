@@ -41,8 +41,8 @@ export default {
     if(localStorage.getItem('userId')){
       this.$root.goLogin=false
     }else{
-      // this.$root.goLogin=true
-      this.$root.goLogin=false
+      this.$root.goLogin=true
+      // this.$root.goLogin=false
     }
     this.active=this.$route.query.active?Number(this.$route.query.active):0
   }
