@@ -1,8 +1,8 @@
 <template>
     <div id='money'>
         <div class="head">
-            <span :style="{'border-bottom':follow?'2px solid black':'none'}" @click="change">关注</span>
-            <span :style="{'border-bottom':!follow?'2px solid black':'none'}" @click="change">最新</span>
+            <span :style="{'border-bottom':follow?'2px solid black':'none'}" @click="change(true)">关注</span>
+            <span :style="{'border-bottom':!follow?'2px solid black':'none'}" @click="change(false)">最新</span>
         </div>
         <div class="shareList">
             <ul>
@@ -15,7 +15,7 @@
                                 <div class="time">{{item.create_time}}</div> 
                             </div>
                         </div>
-                        <div class="follow" @click="goFollow(index,item.article_id)" :style="{'background-color':item.follow?'#ffda44':'#fff'}">
+                        <div class="follow" @click="goFollow(index,item.author_id,item.follow)" :style="{'background-color':item.follow?'#ffda44':'#fff'}">
                             <div v-if="!item.follow">
                                 <van-icon name="plus" />
                                 关注
@@ -41,7 +41,7 @@
 <script>
 import './index.css'
 import { Icon} from 'vant';
-import {getShareList,setShare} from '../../assets/js'
+import {getShareList,setShare,followAuthor,cancelFollowAuthor} from '../../assets/js'
 export default {
    components:{
        [Icon.name]:Icon
@@ -62,14 +62,59 @@ export default {
         })
     },
     methods:{
-        change(){
-            this.follow=this.follow?false:true
+        change(follow){
+            this.follow=this.follow?false:true;
+            let userId=JSON.parse(localStorage.getItem('user')).userId;
+            if(follow){
+                let followList=[];
+                followList=this.list.filter(v=>v.follow===true)
+                this.list=followList || [];
+            }else{
+                getShareList(userId).then(res=>{
+                    let data=res.data;
+                    if(data&&data.ok){
+                        this.list=data.msg;
+                    }
+                })
+            }
         },
         godetail(id){
             this.$router.push({path:'/pagedetails?id='+id})
         },
-        goFollow(index,id){
-            this.list[index].follow=this.list[index].follow?false:true
+        goFollow(index,id,follow){
+            let userId=JSON.parse(localStorage.getItem('user')).userId;
+            let params={
+                currentAuthor:userId,
+                followAuthor:id
+            }
+            if(follow){
+                cancelFollowAuthor(params).then(res=>{
+                    let data=res.data;
+                    if(data&&data.ok){
+                        console.log(data.msg);
+                        getShareList(userId).then(res=>{
+                            let data=res.data;
+                            if(data&&data.ok){
+                                this.list=data.msg;
+                            }
+                        })
+                    }
+                })
+            }else{
+                followAuthor(params).then(res=>{
+                    let data=res.data;
+                    if(data&&data.ok){
+                        console.log(data.msg);
+                        getShareList(userId).then(res=>{
+                            let data=res.data;
+                            if(data&&data.ok){
+                                this.list=data.msg;
+                            }
+                        })
+                    }
+                })
+            }
+            
         },
         add(){
             this.$router.push({path:'/addpagedetails'})

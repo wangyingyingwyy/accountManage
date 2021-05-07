@@ -35,6 +35,7 @@
 <script>
 import './index.css'
 import { Icon,Field,Button} from 'vant';
+import {getShareList,setShare} from '../../assets/js'
 export default {
    components:{
        [Icon.name]:Icon,
@@ -60,11 +61,26 @@ export default {
         },
         commit(){
             if(!this.page.title){
-               this.text='金额不能为空'
+               return this.text='标题不能为空'
             }
             if(!this.page.content){
-               this.text2='内容不能为空'
+               return this.text2='内容不能为空'
             }
+            let userId=JSON.parse(localStorage.getItem('user')).userId;
+            let userName=JSON.parse(localStorage.getItem('user')).userName;
+            let param={
+                title:this.page.title,
+                content:this.page.content,
+                author:userName,
+                author_id:userId
+            }
+            setShare(param).then(res=>{
+               console.log(res);
+               let data=res.data;
+                if(data&&data.ok){
+                    this.$router.push({path:'/?active=2'})
+                }
+            })
         }
     },
     watch:{

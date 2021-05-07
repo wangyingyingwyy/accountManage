@@ -103,7 +103,7 @@ function getAccountDetails(accountId){
 //理财分享列表
 function getShareList(userId){
   return new Promise ((resolve)=>{
-    axios.get(URL + '/getShareList',{
+    axios.post(URL + '/getShareList',{
       userId:userId
     }).then(res =>{
           resolve(res);
@@ -125,6 +125,30 @@ function setShare(data){
       });
     })
 }
+//关注
+function followAuthor(data){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/followAuthor',data)
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
+//取消关注
+function cancelFollowAuthor(data){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/cancelFollowAuthor',data)
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
 export {
     incomeList,
     payList,
@@ -135,5 +159,7 @@ export {
     setAccount,
     getAccountDetails,
     getShareList,
-    setShare
+    setShare,
+    followAuthor,
+    cancelFollowAuthor
 }
