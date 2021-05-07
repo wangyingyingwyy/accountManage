@@ -101,9 +101,11 @@ function getAccountDetails(accountId){
     })
 }
 //理财分享列表
-function getShareList(){
+function getShareList(userId){
   return new Promise ((resolve)=>{
-    axios.get(URL + '/getShareList').then(res =>{
+    axios.get(URL + '/getShareList',{
+      userId:userId
+    }).then(res =>{
           resolve(res);
       })
       .catch(function (error) {

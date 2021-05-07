@@ -53,7 +53,8 @@ export default {
         }
     },
     created(){
-        getShareList().then(res=>{
+        let userId=JSON.parse(localStorage.getItem('user')).userId;
+        getShareList(userId).then(res=>{
             let data=res.data;
             if(data&&data.ok){
                 this.list=data.msg;
