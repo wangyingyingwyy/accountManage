@@ -1,0 +1,60 @@
+#details .head{
+    height: 100px;
+    padding-top: 20px;
+    width: 100%;
+    background-color: #ffda44;
+    display: flex;
+    justify-content: left;
+    align-items: top;
+ }
+#details .title{
+   margin-left: 95px;
+   width: 100px;
+   height: 100%;
+   text-align: center;
+}
+#details .title img{
+  width: 60px;
+}
+#details .title span{
+   display: block;
+   margin-top: -10px;
+   font-size: 24px;
+}
+#details .van-cell{
+   height: 65px;
+   line-height: 50px;
+   border-bottom: 1px solid #e9e8e8;
+}
+#details .text {
+   height: auto;
+   line-height: 40px;
+   border-bottom: 1px solid #e9e8e8;
+}
+#details .van-field__label{
+   font-size: 18px;
+   color: #afaeae;
+   width: 70px;
+   text-align: center;
+}
+#details .van-field__value{
+   font-size: 18px;
+}
+#details .buts{
+   height: 60px;
+   width: 100%;
+   position: absolute;
+   bottom: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 16px;
+   color: #d8d8d8;
+}
+#details .buts button{
+   width: 48%;
+   height: 100%;
+   border: none;
+   border-top: 1px solid #d8d8d8;
+}
+ 

@@ -1,0 +1,80 @@
+#add .head{
+    height: 80px;
+    width: 100%;
+    background-color: #ffda44;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ #add .head span{
+    display: inline-block;
+    width: 100px;
+    font-size: 26px;
+    text-align: center;
+    line-height: 80px;
+    height: 100%;
+ }
+ #add .money span:nth-child(2){
+   font-size: 14px;
+   color: rgb(255, 0, 0);
+   margin-left: 20px;
+   display:block;
+   height: 18px;
+}
+ #add .buts{
+    height: 80px;
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ #add .buts button{
+    height: 45px;
+    width: 120px;
+    border-radius: 5px;
+    font-size: 16px;
+ }
+ #add .buts button:nth-child(2){
+    background-color: #ffda44;
+    margin-left: 50px;
+    color: white;
+    border-color: #ffda44;
+ }
+
+ #add .iconList{
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    height: 220px;
+    overflow: scroll;
+ }
+ #add .iconList::-webkit-scrollbar{
+   display: none;
+}
+ #add .iconList div{
+   width: 80px;
+   margin-left: 11px;
+   height: 100px;
+   margin-top: 10px;
+   text-align: center;
+}
+#add .iconList div .imgs{
+   width: 60px;
+   height: 60px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 60px;
+   background-color: rgb(210, 211, 211);
+}
+#add .iconList div img{
+   width: 50px;
+   height: 50px;
+}
+#add .iconList div span{
+   margin-top: 5px;
+   font-size: 18px;
+   display: block;
+}

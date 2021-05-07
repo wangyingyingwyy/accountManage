@@ -1,0 +1,7 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.van-field__label{
+    width: 40px;
+}
