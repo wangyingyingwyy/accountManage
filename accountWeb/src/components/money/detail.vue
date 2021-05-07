@@ -7,8 +7,11 @@
         <div class="shareList">
             <div class="title">
                 <div class="author">
-                    <span>作者: <span class="name">{{page.author}}</span> </span> 
-                    <span class="time">{{page.create_time}}</span> 
+                    <span class="author-img">{{page.author.substring(page.author.length-2)}}</span>
+                    <div :style="{'display':'inline-block','margin-left':'20px'}">
+                        <div class="name">{{page.author}}</div> 
+                        <div class="time">{{page.create_time}}</div> 
+                    </div>
                 </div>
                 <div class="follow" @click="goFollow" :style="{'background-color':page.follow?'#ffda44':'#fff'}">
                     <div v-if="!page.follow">

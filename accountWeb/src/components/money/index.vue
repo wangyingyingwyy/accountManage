@@ -9,8 +9,11 @@
                 <li v-for="(item,index) in list" :key="index">
                     <div class="title">
                         <div class="author">
-                            <span>作者: <span class="name">{{item.author}}</span> </span> 
-                            <span class="time">{{item.create_time}}</span> 
+                            <span class="author-img">{{item.author.substring(item.author.length-2)}}</span>
+                            <div :style="{'display':'inline-block','margin-left':'20px'}">
+                                <div class="name">{{item.author}}</div> 
+                                <div class="time">{{item.create_time}}</div> 
+                            </div>
                         </div>
                         <div class="follow" @click="goFollow(index,item.share_id)" :style="{'background-color':item.follow?'#ffda44':'#fff'}">
                             <div v-if="!item.follow">
