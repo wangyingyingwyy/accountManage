@@ -54,15 +54,26 @@ export default {
     },
     data(){
         return{
-            name:'张三',
-            tel:'11111111111',
-            num:7,
-            day:65
+            name:'',
+            tel:'',
+            num:0,
+            day:0
         }
     },
     created(){
-        getUserMsg(localStorage.getItem('userId')).then(res=>{
-            console.log(res)
+        let userId=JSON.parse(localStorage.getItem('user')).userId
+        getUserMsg(userId).then(res=>{
+            let data=res.data;
+            if(data&&data.ok){
+                const {day,name,tel,num} = data.msg;
+                this.name=name;
+                this.tel=tel;
+                this.num=num;
+                this.day=day;
+                return true;
+            }else{
+                return false;
+            }
         })
     },
     methods:{
@@ -74,7 +85,7 @@ export default {
             message: '是否退出登录？',
             theme: 'round-button',
             }).then(() => {
-                localStorage.removeItem('userId')
+                localStorage.removeItem('user')
                 this.close()
                 this.$root.goLogin=true
             }).then(() => {

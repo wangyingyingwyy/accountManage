@@ -15,7 +15,7 @@
                                 <div class="time">{{item.create_time}}</div> 
                             </div>
                         </div>
-                        <div class="follow" @click="goFollow(index,item.share_id)" :style="{'background-color':item.follow?'#ffda44':'#fff'}">
+                        <div class="follow" @click="goFollow(index,item.article_id)" :style="{'background-color':item.follow?'#ffda44':'#fff'}">
                             <div v-if="!item.follow">
                                 <van-icon name="plus" />
                                 关注
@@ -25,7 +25,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="con" @click="godetail(item.share_id)">
+                    <div class="con" @click="godetail(item.article_id)">
                         <div class="titles">{{item.title}}</div>
                         <div class="detail"><pre>{{item.content}}</pre></div>
                     </div>
@@ -41,6 +41,7 @@
 <script>
 import './index.css'
 import { Icon} from 'vant';
+import {getShareList,setShare} from '../../assets/js'
 export default {
    components:{
        [Icon.name]:Icon
@@ -48,55 +49,16 @@ export default {
     data(){
         return{
             follow: false,
-            list:[{share_id:'12',
-                title:'理财经验分享',
-                content:'理财经验分享理财经验分享',
-                author:'zhangsan',
-                author_id:'1234',
-                create_time:'2021-1-30',
-                click_count:'0',
-                follow:false,
-            },{share_id:'12',
-                title:'理财经验分享',
-                content:'    理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享',
-                author:'zhangsan',
-                author_id:'1234',
-                create_time:'2021-1-30',
-                click_count:'0',
-                follow:true},
-                {share_id:'12',
-                title:'理财经验分享',
-                content:'理财经验分享理财经验分享',
-                author:'zhangsan',
-                author_id:'1234',
-                create_time:'2021-1-30',
-                click_count:'0',
-                follow:false,
-            },{share_id:'12',
-                title:'理财经验分享',
-                content:'    理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享',
-                author:'zhangsan',
-                author_id:'1234',
-                create_time:'2021-1-30',
-                click_count:'0',
-                follow:true},
-                {share_id:'12',
-                title:'理财经验分享',
-                content:'理财经验分享理财经验分享',
-                author:'zhangsan',
-                author_id:'1234',
-                create_time:'2021-1-30',
-                click_count:'0',
-                follow:false,
-            },{share_id:'12',
-                title:'理财经验分享',
-                content:'    理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享理财经验分享',
-                author:'zhangsan',
-                author_id:'1234',
-                create_time:'2021-1-30',
-                click_count:'0',
-                follow:true}]
+            list:[]
         }
+    },
+    created(){
+        getShareList().then(res=>{
+            let data=res.data;
+            if(data&&data.ok){
+                this.list=data.msg;
+            }
+        })
     },
     methods:{
         change(){

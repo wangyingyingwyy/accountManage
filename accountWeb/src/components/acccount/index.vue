@@ -47,21 +47,21 @@
       </div>
       <div class="account_list">
           <ul>
-              <li v-for="(item,index) in list" :key="index" @click="godetaol(123456)">
+              <li v-for="(item,index) in list" :key="index" @click="godetaol(item.account_id)">
                   <div class="icon">
                      <van-icon name="balance-o" @click="goSet"  /> 
                   </div>
                   <div class="con">
                       <span class="time">
-                          {{item.dayBillList[0].create_year+'年'+item.dayBillList[0].create_month+'月'+item.dayBillList[0].create_day+'日'}}
-                          {{week[item.dayBillList[0].create_week]}}
+                          {{item.create_year+'年'+item.create_month+'月'+item.create_day+'日'}}
+                          {{week[item.create_week]}}
                       </span>
                       <span class="details">
-                          11111111111111111111111111111111111
+                          {{item.account_details}}
                       </span>
                   </div>
                   <div class="money">
-                      {{item.account_type=='income'?'+':'-'}}{{item.account_money}}
+                      {{item.account_type=='income'?'+':''}}{{item.account_money}}
                   </div>
               </li>
           </ul>
@@ -73,6 +73,7 @@
 import {DatetimePicker,Icon} from 'vant'
 import myset from '../setting/index'
 import './index.css'
+import {getBillList,setAccount} from '../../assets/js'
 export default {
     components:{
      [DatetimePicker.name]:DatetimePicker,
@@ -94,190 +95,25 @@ export default {
             income:'0.00',
             pay:'0.00',
             showSet:false,
-            list:[{account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]},
-            {account_money: 1000,
-            account_type: "income",
-            create_month: 3,
-            create_year: 2021,
-            dayBillList:[{account_type: "income",
-                create_day: 7,
-                create_month: 3,
-                create_week: 7,
-                create_year: 2021}
-            ]}]
+            list:[]
         }
     },
     created(){
-        
+        let userId=JSON.parse(localStorage.getItem('user')).userId;
+        let param={
+            billType:this.billType,
+            userId,
+            month:this.month,
+            year:this.year 
+        }
+         getBillList(param).then(res=>{
+           let data=res.data;
+           if(data&&data.ok){
+               this.list = data.msg.dayBillList || [];
+               this.income = data.msg.income || "0.00";
+               this.pay = data.msg.outcome || "0.00";
+           }
+        })
     },
     methods:{
         goSet() {

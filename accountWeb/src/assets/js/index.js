@@ -21,11 +21,35 @@ const incomeList=[{type:1,icon:'礼金',path: 'income/1lijin.png'},
 {type:5,icon:'其他',path:'income/1qita.png'},
 ]
 
-const URL='http:121313313//api/user/'
+const URL='/api'
+//登录
+function loginFun(data){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/user/login',data)
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
+//注册
+function registerFun(data){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/user/reg',data)
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
 //获取用户信息/api/user/message
 function getUserMsg(userId){
     return new Promise ((resolve)=>{
-    axios.post(URL + '/message',
+    axios.post(URL + '/user/message',
       {
         userId:userId
       })
@@ -36,10 +60,78 @@ function getUserMsg(userId){
         console.log(error);
       });
     })
-  }
+}
+//获取账单
 
+function getBillList(data){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/getBill',data)
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
+//收支记录
+function setAccount(data){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/account ',data)
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
+//收支记录详情
+function getAccountDetails(accountId){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/getAccountDetails ',{
+      accountId:accountId
+    })
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
+//理财分享列表
+function getShareList(){
+  return new Promise ((resolve)=>{
+    axios.get(URL + '/getShareList').then(res =>{
+          resolve(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
+//理财分享
+function setShare(data){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/manageMoneyShare',data)
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
 export {
     incomeList,
     payList,
-    getUserMsg
+    getUserMsg,
+    registerFun,
+    loginFun,
+    getBillList,
+    setAccount,
+    getAccountDetails,
+    getShareList,
+    setShare
 }

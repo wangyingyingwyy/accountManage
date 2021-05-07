@@ -3,22 +3,22 @@
         <div class="head">
             <van-icon name="arrow-left" @click="cancel"/>
             <div class="title">
-                <img :src="require('../../assets/imgs/' + imgList[icon_type-1].path)" alt="">
-                <span>{{icon_name}}</span>
+                <img :src="require('../../assets/imgs/' + imgList[detailsMsg.icon_type-1].path)" alt="">
+                <span>{{detailsMsg.icon_name}}</span>
             </div>
         </div>
         <div class="con">
              <van-field              
                 readonly
                 clickable
-                :value="type=='income'?'收入':'支出'"
+                :value="detailsMsg.type=='income'?'收入':'支出'"
                 name="类型"
                 label="类型"
             />
             <van-field              
                 readonly
                 clickable
-                :value="money"
+                :value="detailsMsg.account_money"
                 name="金额"
                 label="金额"
             />
@@ -33,7 +33,7 @@
                 class="text" 
                 readonly
                 clickable          
-                v-model="details"
+                v-model="detailsMsg.account_details"
                 rows="2"
                 autosize
                 label="备注"
@@ -49,7 +49,7 @@
 
 <script>
 import './index.css'
-import {payList,incomeList} from '../../assets/js'
+import {payList,incomeList,getAccountDetails} from '../../assets/js'
 import { Button,Icon,Field,Dialog } from 'vant';
 export default {
    components:{
@@ -60,18 +60,30 @@ export default {
    },
    data(){
        return {
+        week:{1:'星期一',2:'星期二',3:'星期三',4:'星期四',5:'星期五',6:'星期六',7:'星期日'},
         id:'',
         type: 'income',
         money: '1000',
         details:'购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物',
-        time:'2021年05月02日 星期日',
+        time:'',
         icon_type:2,
-        icon_name:'购物'
+        icon_name:'购物',
+        detailsMsg:{}
     }
    },
    created(){
        this.id=this.$route.query.id
        this.imgList=this.type=='income'?incomeList:payList
+        getAccountDetails(this.id).then(res=>{
+            let data=res.data;
+            if(data&&data.ok){
+                this.detailsMsg=data.msg[0];
+                this.time=data.msg[0].create_year+'年'+data.msg[0].create_month+'月'+data.msg[0].create_day+'日 '+this.week[data.msg[0].create_week]
+                console.log(this.imgList[this.detailsMsg.icon_type-1].path)
+            }else{
+                return false
+            }
+        })
    },
    methods:{
        cancel(){

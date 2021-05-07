@@ -49,7 +49,7 @@
 
 <script>
 import './index.css'
-import {payList,incomeList} from '../../assets/js'
+import {payList,incomeList,setAccount} from '../../assets/js'
 import { Button,NumberKeyboard,Field } from 'vant';
 export default {
    components:{
@@ -74,19 +74,34 @@ export default {
            this.$router.push({path:'/?active=0'})
        },
        change(){
-           this.type=this.type=='income'?'pay':'income'
-           if(this.type=='income'){
-               this.imglist=incomeList
-           }else{
-               this.imglist=payList
-           }
-           this.icon_type=0,
+            this.type=this.type=='income'?'outcome':'income'
+            if(this.type=='income'){
+                this.imglist=incomeList
+            }else{
+                this.imglist=payList
+            }
+            this.icon_type=0,
             this.icon_name=''
        },
        commit(){
-           if(!this.va1ue){
-               this.text='金额不能为空'
-           }
+            if(!this.value){
+                return this.text='金额不能为空'
+            }
+            let userId=JSON.parse(localStorage.getItem('user')).userId;
+            let userName=JSON.parse(localStorage.getItem('user')).userName;
+            let param={
+                accountType:this.type,
+                accountMoney:this.value,
+                accountDetails:this.message,
+                iconType:this.icon_type,
+                iconName:this.icon_name,
+                userId,
+                userName
+            }
+            setAccount(param).then(res=>{
+               console.log(res)
+               
+            })
        },
        chooseIcon(type,name){
            this.icon_type=type,

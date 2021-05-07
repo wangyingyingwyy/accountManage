@@ -6,7 +6,7 @@
             <van-field
                 v-model="tel"
                 type="tel"
-                name="手机号"
+                name="phone"
                 label="手机号"
                 placeholder="请输入手机号"
                 :rules="[{ required: true, message: '手机号不能为空' }]"
@@ -14,7 +14,7 @@
             <van-field
                 v-model="password"
                 type="password"
-                name="密码"
+                name="password"
                 label="密码"
                 placeholder="请输入"
                 :rules="[{ required: true, message: '密码错误' }]"
@@ -28,7 +28,7 @@
             <van-form @submit="onSubmit1">
                 <van-field
                 v-model="name"
-                name="昵称"
+                name="username"
                 label="昵称"
                 placeholder="请输入昵称"
                 :rules="[{ required: true, message: '昵称不能为空' }]"
@@ -36,7 +36,7 @@
             <van-field
                 v-model="tel"
                 type="tel"
-                name="手机号"
+                name="phone"
                 label="手机号"
                 placeholder="请输入手机号"
                 :rules="[{ required: true, message: '手机号不能为空' }]"
@@ -44,10 +44,10 @@
             <van-field
                 v-model="password"
                 type="password"
-                name="密码"
+                name="password"
                 label="密码"
                 placeholder="请输入"
-                :rules="[{ required: true, message: '密码错误' }]"
+                :rules="[{ required: true, message: '密码不能为空' }]"
             />
             <div style="margin: 16px;">
                 <van-button round block type="info" native-type="submit">注册</van-button>
@@ -61,7 +61,8 @@
 
 <script>
 import './index.css'
-import {Form,Field,Button} from 'vant'
+import {Form,Field,Button} from 'vant';
+import {registerFun,loginFun} from '../../assets/js'
 export default {
      components:{
         [Form.name]:Form,
@@ -81,11 +82,28 @@ export default {
             this.login=this.login?false:true
         },
         onSubmit(values) {
-            console.log('submit', values);
-            this.$root.goLogin=false
+             loginFun(values).then(res=>{
+                let data = res.data;
+                if(data&&data.ok){
+                    let user ={
+                        userId:data.msg.user_id,
+                        userName:data.msg.user_name,
+                        userPhone:data.msg.user_phone
+                    }
+                    localStorage.setItem('user',JSON.stringify(user))
+                    this.$root.goLogin=false
+                }
+            })
+            
         },
         onSubmit1(values) {
-            console.log('submit', values);
+            registerFun(values).then(res=>{
+                let data = res.data;
+                if(data&&data.ok){
+                    this.login=true
+                    return data.msg;
+                }
+            })
         }
     }
 }
