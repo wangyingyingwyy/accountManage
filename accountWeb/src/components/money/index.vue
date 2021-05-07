@@ -10,7 +10,7 @@
                     <div class="title">
                         <div class="author">
                             <span class="author-img">{{item.author.substring(item.author.length-2)}}</span>
-                            <div :style="{'display':'inline-block','margin-left':'20px'}">
+                            <div :style="{'display':'inline-block','margin-left':'5px'}">
                                 <div class="name">{{item.author}}</div> 
                                 <div class="time">{{item.create_time}}</div> 
                             </div>

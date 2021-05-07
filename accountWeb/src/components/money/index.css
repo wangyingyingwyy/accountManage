@@ -63,19 +63,19 @@
     margin-top: 5px;
 }
  #money .title .follow{
-    width: 80px;
-    height: 30px;
+    width: 60px;
+    height: 25px;
     border: 1px solid #d1d1d1;
     border-radius: 15px;
     margin-right: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 16px;
+    font-size: 12px;
 }
 #money .title .follow i{
-    font-size: 18px;
-    margin-right: 5px;
+    font-size: 14px;
+    margin-right: 3px;
     font-weight: bold;
 }
 #money .title .follow div{
@@ -84,8 +84,8 @@
     align-items: center;
 }
 #money .con{
-    width: 280px;
-    margin: 0 auto;
+    width: 300px;
+    margin-left: 50px;
 }
 #money .con .titles{
     font-size: 20px;
@@ -99,14 +99,16 @@
     -webkit-line-clamp: 3; /** 显示的行数 **/
     overflow: hidden;  /** 隐藏超出的内容 **/
     margin-bottom: 10px;
+    margin-top: 5px;
 }
 pre {
     white-space: pre-wrap;
+    line-height: 20px;
 }
 #money .add{
-    width: 70px;
-    height: 70px;
-    border-radius: 70px;
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
     background-color: #ffda44;
     position: absolute;
     display: flex;
@@ -115,6 +117,7 @@ pre {
     font-size: 40px;
     right: 10px;
     bottom: 80px;
+    box-shadow:0px 0px 10px #ffda44;
 }
 
 #money .detail_head{
