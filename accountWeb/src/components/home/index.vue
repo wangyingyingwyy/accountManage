@@ -38,11 +38,10 @@ export default {
     }
   },
   created(){
-    if(localStorage.getItem('userId')){
+    if(localStorage.getItem('user')){
       this.$root.goLogin=false
     }else{
       this.$root.goLogin=true
-      // this.$root.goLogin=false
     }
     this.active=this.$route.query.active?Number(this.$route.query.active):0
   }

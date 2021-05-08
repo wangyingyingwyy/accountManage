@@ -17,7 +17,8 @@
                 name="password"
                 label="密码"
                 placeholder="请输入"
-                :rules="[{ required: true, message: '密码错误' }]"
+                :rules="[{ onSubmit}]"
+                :error-message="errorMsg"
             />
             <div style="margin: 16px;">
                 <van-button round block type="info" native-type="submit">登录</van-button>
@@ -74,7 +75,8 @@ export default {
             login:true,
             tel:'',
             password:'',
-            name:''
+            name:'',
+            errorMsg:''
         }
     },
     methods:{
@@ -92,6 +94,8 @@ export default {
                     }
                     localStorage.setItem('user',JSON.stringify(user))
                     this.$root.goLogin=false
+                }else{
+                    this.errorMsg='密码或账号不正确'
                 }
             })
             

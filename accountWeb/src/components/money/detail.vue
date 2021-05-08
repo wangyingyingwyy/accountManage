@@ -10,10 +10,10 @@
                     <span class="author-img">{{page.author.substring(page.author.length-2)}}</span>
                     <div :style="{'display':'inline-block','margin-left':'20px'}">
                         <div class="name">{{page.author}}</div> 
-                        <div class="time">{{page.create_time}}</div> 
+                        <div class="time">{{page.create_time.substring(0,10)}}</div> 
                     </div>
                 </div>
-                <div class="follow" @click="goFollow" :style="{'background-color':page.follow?'#ffda44':'#fff'}">
+                <div v-show="page.author_id!=userId" class="follow" @click="goFollow" :style="{'background-color':page.follow?'#ffda44':'#fff'}">
                     <div v-if="!page.follow">
                         <van-icon name="plus" />
                         关注
@@ -34,6 +34,7 @@
 <script>
 import './index.css'
 import { Icon} from 'vant';
+import {shareDetails} from '../../assets/js'
 export default {
    components:{
        [Icon.name]:Icon
@@ -48,8 +49,15 @@ export default {
                 create_time:'2021-1-30',
                 click_count:'0',
                 follow:false,
-            }
+            },
+            userId:JSON.parse(localStorage.getItem('user')).userId
         }
+    },
+    created() {
+        var id=this.$route.query.id
+        shareDetails({articleId:id}).then(res=>{
+            this.page=res.data.msg[0]
+        })
     },
     methods:{
         goback(){

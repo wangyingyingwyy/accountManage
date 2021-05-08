@@ -2,7 +2,7 @@
     <div id="add">
         <div class="head">
             <span :style="{'border-bottom':type=='income'?'2px solid black':'none'}" @click="change">收入</span>
-            <span :style="{'border-bottom':type=='pay'?'2px solid black':'none'}" @click="change">支出</span>
+            <span :style="{'border-bottom':type=='outcome'?'2px solid black':'none'}" @click="change">支出</span>
         </div>
         <div class="income">
             <div class="iconList">
@@ -84,8 +84,8 @@ export default {
             this.icon_name=''
        },
        commit(){
-            if(!this.value){
-                return this.text='金额不能为空'
+            if(!this.value&&this.icon_type==0){
+                return this.text='金额和类型不能为空'
             }
             let userId=JSON.parse(localStorage.getItem('user')).userId;
             let userName=JSON.parse(localStorage.getItem('user')).userName;
@@ -100,7 +100,7 @@ export default {
             }
             setAccount(param).then(res=>{
                console.log(res)
-               
+               this.cancel()
             })
        },
        chooseIcon(type,name){

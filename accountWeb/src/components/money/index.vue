@@ -12,10 +12,10 @@
                             <span class="author-img">{{item.author.substring(item.author.length-2)}}</span>
                             <div :style="{'display':'inline-block','margin-left':'5px'}">
                                 <div class="name">{{item.author}}</div> 
-                                <div class="time">{{item.create_time}}</div> 
+                                <div class="time">{{item.create_time.substring(0,10)}}</div> 
                             </div>
                         </div>
-                        <div class="follow" @click="goFollow(index,item.author_id,item.follow)" :style="{'background-color':item.follow?'#ffda44':'#fff'}">
+                        <div v-show="item.author_id!=userId" class="follow" @click="goFollow(index,item.author_id,item.follow)" :style="{'background-color':item.follow?'#ffda44':'#fff'}">
                             <div v-if="!item.follow">
                                 <van-icon name="plus" />
                                 关注
@@ -49,12 +49,12 @@ export default {
     data(){
         return{
             follow: false,
-            list:[]
+            list:[],
+            userId:JSON.parse(localStorage.getItem('user')).userId
         }
     },
     created(){
-        let userId=JSON.parse(localStorage.getItem('user')).userId;
-        getShareList(userId).then(res=>{
+        getShareList(this.userId).then(res=>{
             let data=res.data;
             if(data&&data.ok){
                 this.list=data.msg;
@@ -64,13 +64,12 @@ export default {
     methods:{
         change(follow){
             this.follow=this.follow?false:true;
-            let userId=JSON.parse(localStorage.getItem('user')).userId;
             if(follow){
                 let followList=[];
                 followList=this.list.filter(v=>v.follow===true)
                 this.list=followList || [];
             }else{
-                getShareList(userId).then(res=>{
+                getShareList(this.userId).then(res=>{
                     let data=res.data;
                     if(data&&data.ok){
                         this.list=data.msg;
@@ -82,9 +81,8 @@ export default {
             this.$router.push({path:'/pagedetails?id='+id})
         },
         goFollow(index,id,follow){
-            let userId=JSON.parse(localStorage.getItem('user')).userId;
             let params={
-                currentAuthor:userId,
+                currentAuthor:this.userId,
                 followAuthor:id
             }
             if(follow){
@@ -92,7 +90,7 @@ export default {
                     let data=res.data;
                     if(data&&data.ok){
                         console.log(data.msg);
-                        getShareList(userId).then(res=>{
+                        getShareList(this.userId).then(res=>{
                             let data=res.data;
                             if(data&&data.ok){
                                 this.list=data.msg;
@@ -105,7 +103,7 @@ export default {
                     let data=res.data;
                     if(data&&data.ok){
                         console.log(data.msg);
-                        getShareList(userId).then(res=>{
+                        getShareList(this.userId).then(res=>{
                             let data=res.data;
                             if(data&&data.ok){
                                 this.list=data.msg;

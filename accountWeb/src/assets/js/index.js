@@ -21,7 +21,7 @@ const incomeList=[{type:1,icon:'礼金',path: 'income/1lijin.png'},
 {type:5,icon:'其他',path:'income/1qita.png'},
 ]
 
-const URL='/api'
+const URL='http://xyzzw.cn.utools.club/api'
 //登录
 function loginFun(data){
   return new Promise ((resolve)=>{
@@ -125,6 +125,18 @@ function setShare(data){
       });
     })
 }
+//理财分享详情
+function shareDetails(data){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/shareDetails',data)
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
 //关注
 function followAuthor(data){
   return new Promise ((resolve)=>{
@@ -161,5 +173,6 @@ export {
     getShareList,
     setShare,
     followAuthor,
-    cancelFollowAuthor
+    cancelFollowAuthor,
+    shareDetails
 }
