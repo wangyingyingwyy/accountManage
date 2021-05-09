@@ -44,7 +44,13 @@ export default {
       this.$root.goLogin=true
     }
     this.active=this.$route.query.active?Number(this.$route.query.active):0
-  }
+  },
+  watch:{
+     active(val, oldVal){
+       console.log(val)
+        this.$router.replace({active:val})
+     },
+   }
 }
 </script>
 
