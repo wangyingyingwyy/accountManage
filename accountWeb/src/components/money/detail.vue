@@ -10,7 +10,7 @@
                     <span class="author-img">{{page.author.substring(page.author.length-2)}}</span>
                     <div :style="{'display':'inline-block','margin-left':'20px'}">
                         <div class="name">{{page.author}}</div> 
-                        <div class="time">{{page.create_time.substring(0,10)}}</div> 
+                        <div class="time">{{page.create_time.substring(0,10)+' '+ page.create_time.substring(11,20)}}</div> 
                     </div>
                 </div>
                 <div v-show="page.author_id!=userId" class="follow" @click="goFollow" :style="{'background-color':page.follow?'#ffda44':'#fff'}">
@@ -25,7 +25,7 @@
             </div>
             <div class="con">
                 <div class="titles detail_title">{{page.title}}</div>
-                <div class="detail"><pre>{{page.content}}</pre></div>
+                <div class="details"><pre>{{page.content}}</pre></div>
             </div>
         </div>
     </div>

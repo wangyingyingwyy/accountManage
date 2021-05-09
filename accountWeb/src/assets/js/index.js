@@ -86,6 +86,32 @@ function setAccount(data){
       });
     })
 }
+//删除账单
+function deleteAccountDetails(accountId){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/deleteAccountDetails',{
+      accountId:accountId
+    })
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
+//编辑账单
+function editAccount(data){
+  return new Promise ((resolve)=>{
+    axios.post(URL + '/editAccount',data)
+      .then(res =>{
+          resolve(res);
+        })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+}
 //收支记录详情
 function getAccountDetails(accountId){
   return new Promise ((resolve)=>{
@@ -174,5 +200,7 @@ export {
     setShare,
     followAuthor,
     cancelFollowAuthor,
-    shareDetails
+    shareDetails,
+    deleteAccountDetails,
+    editAccount
 }

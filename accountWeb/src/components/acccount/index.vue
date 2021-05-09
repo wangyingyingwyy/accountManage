@@ -18,8 +18,8 @@
                   <van-icon name="arrow-down" />
               </div>
               <div class="showMoney">
-                  <span>{{income}}</span>
-                  <span>{{pay}}</span>
+                  <span>+{{income}}</span>
+                  <span>-{{pay}}</span>
                 </div>
               <van-datetime-picker
                 v-show="showYear"
@@ -46,7 +46,7 @@
           </div>
       </div>
       <div class="account_list">
-          <ul>
+          <ul v-if="billType=='month'">
               <li v-for="(item,index) in list" :key="index" @click="godetaol(item.account_id)">
                   <div class="icon">
                      <van-icon name="balance-o" @click="goSet"  /> 
@@ -57,11 +57,30 @@
                           {{week[item.create_week]}}
                       </span>
                       <span class="details">
-                          {{item.account_details}}
+                          {{item.icon_name}}
                       </span>
                   </div>
                   <div class="money">
-                      {{item.account_type=='income'?'+':''}}{{item.account_money}}
+                      {{item.account_type=='income'?'+':'-'}}{{item.account_money}}
+                  </div>
+              </li>
+          </ul>
+          <ul v-else>
+              <li v-for="(item,index) in list" :key="index" @click="goYeardetaol(item)">
+                  <div class="icon">
+                     <van-icon name="balance-o" /> 
+                  </div>
+                  <div class="con">
+                      <span class="time">
+                          {{item.create_year+'年'+item.create_month+'月'}}
+                      </span>
+                      <span class="details">
+                          {{item.create_month+'月账单'}}
+                      </span>
+                  </div>
+                  <div class="money">
+                      <span>{{'+'+item.income}}</span>
+                      <span>{{'-'+item.outcome}}</span>
                   </div>
               </li>
           </ul>
@@ -83,13 +102,13 @@ export default {
     },
     data(){
         return{
-            week:{1:'星期一',2:'星期二',3:'星期三',4:'星期四',5:'星期五',6:'星期六',7:'星期日'},
+            week:{1:'星期一',2:'星期二',3:'星期三',4:'星期四',5:'星期五',6:'星期六',0:'星期日'},
             billType:'month',
             minDate: new Date(2000, 0, 1),
             maxDate: new Date(2025, 10, 1),
             currentDate: new Date(),
             year:new Date().getFullYear(),
-            month:new Date().getMonth(),
+            month:new Date().getMonth()+1,
             showYear:false,
             showMonth:false,
             income:'0.00',
@@ -99,37 +118,53 @@ export default {
         }
     },
     created(){
-        let userId=JSON.parse(localStorage.getItem('user')).userId;
-        let param={
-            billType:this.billType,
-            userId,
-            month:this.month,
-            year:this.year 
-        }
-         getBillList(param).then(res=>{
-           let data=res.data;
-           if(data&&data.ok){
-               this.list = data.msg.dayBillList || [];
-               this.income = data.msg.income || "0.00";
-               this.pay = data.msg.outcome || "0.00";
-           }
-        })
+        this.getlist()
     },
     methods:{
+        getlist(){
+            let userId=JSON.parse(localStorage.getItem('user')).userId;
+            console.log(this.currentDate)
+            let param={
+                billType:this.billType,
+                userId,
+                month:this.month,
+                year:this.year 
+            }
+            getBillList(param).then(res=>{
+                let data=res.data;
+                if(data&&data.ok){
+                    if(this.billType=='year'){
+                        this.list=data.msg.list || [];
+                    }else{
+                        this.list = data.msg.dayBillList || [];
+                    }
+                    this.income = data.msg.income || "0.00";
+                    this.pay = data.msg.outcome || "0.00";
+                }
+            })
+        },
         goSet() {
             this.showSet = true;
         },
         change(){
-            this.billType=this.billType=='month'?'year':'month'
+            
+            if(this.billType=='month'){
+                this.billType='year'
+                this.year=new Date().getFullYear()
+            }else{
+                this.billType='month'
+                this.month=new Date().getMonth()+1
+            }
             this.showYear=false
             this.showMonth=false
+            this.getlist()
         },
         formatter(type, val) {
         if (type === 'year') {
-            this.year=val;
+            this.year=Number(val);
             return `${val}年`;
         } else if (type === 'month') {
-            this.month=val
+            this.month=Number(val)
             return `${val}月`;
         }
             return val;
@@ -144,9 +179,13 @@ export default {
         okTime(){
             this.showYear=false
             this.showMonth=false
+            this.getlist()
         },
         godetaol(val){
             this.$router.push({path:'/details?id='+val})
+        },
+        goYeardetaol(item){
+            this.$router.push({path:'/yeardetails?&month='+item.create_month+'&year='+item.create_year})
         }
     }
 }

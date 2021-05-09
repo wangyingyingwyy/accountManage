@@ -47,12 +47,7 @@
     display: flex;
     justify-content: left;
     flex-wrap: wrap;
-    height: 220px;
-    overflow: scroll;
  }
- #add .iconList::-webkit-scrollbar{
-   display: none;
-}
  #add .iconList div{
    width: 80px;
    margin-left: 11px;

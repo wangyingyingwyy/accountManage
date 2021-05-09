@@ -7,7 +7,7 @@
         <div class="income">
             <div class="iconList">
                 <div v-for="(item,index) in imglist" :key="index" >
-                    <div @click="chooseIcon(item.type,item.name)" class="imgs" :style="{'background-color':item.type==icon_type?'#ffda44':'rgb(210, 211, 211)'}"><img :src="require('../../assets/imgs/' + item.path)" alt=""></div>
+                    <div @click="chooseIcon(item.type,item.icon)" class="imgs" :style="{'background-color':item.type==icon_type&&item.icon==icon_name?'#ffda44':'rgb(210, 211, 211)'}"><img :src="require('../../assets/imgs/' + item.path)" alt=""></div>
                     <span>{{item.icon}}</span>
                 </div>
             </div>
@@ -49,7 +49,7 @@
 
 <script>
 import './index.css'
-import {payList,incomeList,setAccount} from '../../assets/js'
+import {payList,incomeList,setAccount,getAccountDetails,editAccount} from '../../assets/js'
 import { Button,NumberKeyboard,Field } from 'vant';
 export default {
    components:{
@@ -59,15 +59,37 @@ export default {
    },
    data(){
        return {
-        type: 'income',
+        type: 'outcome',
         show: false,
         value: '',
         text:'',
         message:'',
-        imglist:incomeList,
+        imglist:payList,
         icon_type:0,
-        icon_name:''
+        icon_name:'',
+        id:''
     }
+   },
+   created(){
+       if(this.$route.query.id){
+           this.id=this.$route.query.id
+            getAccountDetails(this.id).then(res=>{
+            let data=res.data;
+            if(data&&data.ok){
+                this.type=data.msg[0].account_type
+                this.value=String(data.msg[0].account_money)
+                this.message=data.msg[0].account_details
+                this.icon_type=data.msg[0].icon_type
+                this.icon_name=data.msg[0].icon_name
+                this.imgList=this.type=='income'?incomeList:payList
+            }else{
+                return false
+            }
+            
+        })
+       }else{
+           this.imgList=incomeList
+       }
    },
    methods:{
        cancel(){
@@ -80,8 +102,10 @@ export default {
             }else{
                 this.imglist=payList
             }
-            this.icon_type=0,
-            this.icon_name=''
+            if(!this.$route.query.id){
+                this.icon_type=0,
+                this.icon_name=''
+            }
        },
        commit(){
             if(!this.value&&this.icon_type==0){
@@ -89,19 +113,31 @@ export default {
             }
             let userId=JSON.parse(localStorage.getItem('user')).userId;
             let userName=JSON.parse(localStorage.getItem('user')).userName;
-            let param={
-                accountType:this.type,
-                accountMoney:this.value,
-                accountDetails:this.message,
-                iconType:this.icon_type,
-                iconName:this.icon_name,
-                userId,
-                userName
+            if(this.$route.query.id){
+                editAccount({
+                    accountMoney:this.value,
+                    accountDetails:this.message,
+                    iconType:this.icon_type,
+                    iconName:this.icon_name,
+                    accountId:this.id,
+                }).then(res=>{
+                this.cancel()
+                })
+            }else{
+                let param={
+                    accountType:this.type,
+                    accountMoney:this.value,
+                    accountDetails:this.message,
+                    iconType:this.icon_type,
+                    iconName:this.icon_name,
+                    userId,
+                    userName
+                }
+                setAccount(param).then(res=>{
+                this.cancel()
+                })
             }
-            setAccount(param).then(res=>{
-               console.log(res)
-               this.cancel()
-            })
+            
        },
        chooseIcon(type,name){
            this.icon_type=type,

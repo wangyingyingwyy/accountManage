@@ -101,6 +101,14 @@
     margin-bottom: 10px;
     margin-top: 5px;
 }
+#money .con .details{
+    font-size: 16px;
+    word-break: break-all;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    height: 550px;
+    overflow: scroll;
+}
 pre {
     white-space: pre-wrap;
     line-height: 26px;

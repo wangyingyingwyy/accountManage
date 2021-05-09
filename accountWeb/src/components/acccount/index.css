@@ -113,3 +113,6 @@
     font-weight: bold;
     overflow: hidden;
   }
+  #account .account_list .money span{
+   display: block;
+  }

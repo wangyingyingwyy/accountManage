@@ -49,7 +49,7 @@
 
 <script>
 import './index.css'
-import {payList,incomeList,getAccountDetails} from '../../assets/js'
+import {payList,incomeList,getAccountDetails,deleteAccountDetails} from '../../assets/js'
 import { Button,Icon,Field,Dialog } from 'vant';
 export default {
    components:{
@@ -60,30 +60,33 @@ export default {
    },
    data(){
        return {
-        week:{1:'星期一',2:'星期二',3:'星期三',4:'星期四',5:'星期五',6:'星期六',7:'星期日'},
+        week:{1:'星期一',2:'星期二',3:'星期三',4:'星期四',5:'星期五',6:'星期六',0:'星期日'},
         id:'',
         type: 'income',
-        money: '1000',
-        details:'购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物购物',
+        money: '',
+        details:'',
         time:'',
-        icon_type:2,
-        icon_name:'购物',
-        detailsMsg:{}
+        icon_type:0,
+        icon_name:'',
+        detailsMsg:{},
+        imgList:[]
     }
    },
    created(){
        this.id=this.$route.query.id
-       this.imgList=this.type=='income'?incomeList:payList
         getAccountDetails(this.id).then(res=>{
             let data=res.data;
             if(data&&data.ok){
                 this.detailsMsg=data.msg[0];
                 this.time=data.msg[0].create_year+'年'+data.msg[0].create_month+'月'+data.msg[0].create_day+'日 '+this.week[data.msg[0].create_week]
-                console.log(this.imgList[this.detailsMsg.icon_type-1].path)
+                this.type=data.msg[0].account_type
+                this.id=data.msg[0].account_id
             }else{
                 return false
             }
+            this.imgList=this.type=='income'?incomeList:payList
         })
+        
    },
    methods:{
        cancel(){
@@ -99,6 +102,7 @@ export default {
             }).then(() => {
                 this.cancel()
             }).then(() => {
+                deleteAccountDetails(this.id)
             });
        }
    },

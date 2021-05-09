@@ -5,6 +5,7 @@ import Addaccount from '../components/addaccount'
 import Details from '../components/details'
 import PageDetails from '../components/money/detail'
 import AddPageDetails from '../components/money/adddetails'
+import Yeardetails from '../components/details/yeardetails'
 Vue.use(Router)
 
 export default new Router({
@@ -22,6 +23,11 @@ export default new Router({
       path:'/details',
       name:'details',
       component:Details
+    },
+    ,{
+      path:'/yeardetails',
+      name:'yeardetails',
+      component:Yeardetails
     },
     ,{
       path:'/pagedetails',

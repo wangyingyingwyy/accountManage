@@ -12,7 +12,7 @@
                             <span class="author-img">{{item.author.substring(item.author.length-2)}}</span>
                             <div :style="{'display':'inline-block','margin-left':'5px'}">
                                 <div class="name">{{item.author}}</div> 
-                                <div class="time">{{item.create_time.substring(0,10)}}</div> 
+                                <div class="time">{{item.create_time.substring(0,10)+' '+ item.create_time.substring(11,20)}}</div> 
                             </div>
                         </div>
                         <div v-show="item.author_id!=userId" class="follow" @click="goFollow(index,item.author_id,item.follow)" :style="{'background-color':item.follow?'#ffda44':'#fff'}">
