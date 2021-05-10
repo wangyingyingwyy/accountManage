@@ -34,13 +34,15 @@
 
 <script>
 import './index.css'
-import { Icon,Field,Button} from 'vant';
+import { Icon,Field,Button,Dialog,Toast} from 'vant';
 import {getShareList,setShare} from '../../assets/js'
 export default {
    components:{
        [Icon.name]:Icon,
        [Field.name]:Field,
-       [Button.name]:Button
+       [Button.name]:Button,
+       [Dialog.name]:Dialog,
+       [Toast.name]:Toast
    },
     data(){
         return{
@@ -54,7 +56,14 @@ export default {
     },
     methods:{
         goback(){
-            this.$router.push({path:'/?active=2'})
+            Dialog.confirm({
+            message: '是否确认取消编辑，取消后无法在继续编辑？',
+            theme: 'round-button',
+            }).then(() => {
+            }).then(() => {
+                this.$router.push({path:'/?active=2'})
+            });
+            
         },
         goFollow(){
             this.page.follow=this.page.follow?false:true
@@ -75,9 +84,9 @@ export default {
                 author_id:userId
             }
             setShare(param).then(res=>{
-               console.log(res);
                let data=res.data;
                 if(data&&data.ok){
+                    Toast('发布成功');
                     this.$router.push({path:'/?active=2'})
                 }
             })

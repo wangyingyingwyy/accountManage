@@ -50,12 +50,14 @@
 <script>
 import './index.css'
 import {payList,incomeList,setAccount,getAccountDetails,editAccount} from '../../assets/js'
-import { Button,NumberKeyboard,Field } from 'vant';
+import { Button,NumberKeyboard,Field,Dialog,Toast} from 'vant';
 export default {
    components:{
        [Button.name]:Button,
        [NumberKeyboard.name]:NumberKeyboard,
-       [Field.name]:Field
+       [Field.name]:Field,
+       [Dialog.name]:Dialog,
+       [Toast.name]:Toast
    },
    data(){
        return {
@@ -93,7 +95,13 @@ export default {
    },
    methods:{
        cancel(){
-           this.$router.push({path:'/?active=0'})
+           Dialog.confirm({
+            message: '是否确认取消编辑，取消后无法在继续编辑？',
+            theme: 'round-button',
+            }).then(() => {
+            }).then(() => {
+                this.$router.push({path:'/?active=0'})
+            });
        },
        change(){
             this.type=this.type=='income'?'outcome':'income'
@@ -121,7 +129,8 @@ export default {
                     iconName:this.icon_name,
                     accountId:this.id,
                 }).then(res=>{
-                this.cancel()
+                    Toast('修改成功');
+                    this.$router.push({path:'/?active=0'})
                 })
             }else{
                 let param={
@@ -134,13 +143,14 @@ export default {
                     userName
                 }
                 setAccount(param).then(res=>{
-                this.cancel()
+                    Toast('添加成功');
+                    this.$router.push({path:'/?active=0'})
                 })
             }
             
        },
        chooseIcon(type,name){
-           this.icon_type=type,
+            this.icon_type=type,
             this.icon_name=name
        },
 

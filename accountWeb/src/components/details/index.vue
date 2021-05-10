@@ -50,13 +50,14 @@
 <script>
 import './index.css'
 import {payList,incomeList,getAccountDetails,deleteAccountDetails} from '../../assets/js'
-import { Button,Icon,Field,Dialog } from 'vant';
+import { Button,Icon,Field,Dialog,Toast } from 'vant';
 export default {
    components:{
        [Button.name]:Button,
        [Icon.name]:Icon,
        [Field.name]:Field,
        [Dialog.name]:Dialog,
+       [Toast.name]:Toast
    },
    data(){
        return {
@@ -100,6 +101,7 @@ export default {
             message: '是否确认删除此账单，删除后无法在查看？',
             theme: 'round-button',
             }).then(() => {
+                Toast('删除成功');
                 this.cancel()
             }).then(() => {
                 deleteAccountDetails(this.id)
